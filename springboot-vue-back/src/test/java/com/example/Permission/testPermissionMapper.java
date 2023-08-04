@@ -19,15 +19,13 @@ public class testPermissionMapper {
 
     @Test
     public void testGetByRoleId(){
-        List<Permission> permissionList = new ArrayList<>();
+        HashSet<Permission> permissionSet = new HashSet<>();
 
         //根据角色id查询所有的资源
-        permissionList.addAll(permissionMapper.getByRoleId(1));
-        permissionList.addAll(permissionMapper.getByRoleId(2));
+        permissionSet.addAll(permissionMapper.getByRoleId(1));
+        permissionSet.addAll(permissionMapper.getByRoleId(2));
 
-//        System.out.println(permissionList);
         //重写equals和hashcode方法去除不同role中相同的permissionPath
-        HashSet<Permission> permissionSet = new HashSet<>(permissionList);
         System.out.println(permissionSet);
     }
 
