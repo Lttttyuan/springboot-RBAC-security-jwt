@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -53,8 +54,11 @@ public class User implements Serializable {
     @ApiModelProperty(value = "地址")
     private String address;
 
-    @ApiModelProperty(value = "角色，1：管理员 2：普通用户")
-    private Integer role;
+    @ApiModelProperty(value = "角色")
+    private String role;
+
+    @TableField(exist = false)
+    private Set<Permission> permissions;
 
     @TableField(exist = false)
     private List<Book> bookList;

@@ -7,12 +7,21 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.common.Result;
+import com.example.entity.Permission;
+import com.example.entity.Role;
 import com.example.entity.User;
+import com.example.entity.UserRole;
+import com.example.mapper.PermissionMapper;
+import com.example.mapper.RoleMapper;
 import com.example.mapper.UserMapper;
 import com.example.service.IUserService;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 
 /**
@@ -33,24 +42,42 @@ public class UserController {
     @Resource
     private UserMapper userMapper;
 
+    @Resource
+    RoleMapper roleMapper;
+
+    @Resource
+    PermissionMapper permissionMapper;
+
     //登录
     //不能存在相同用户名
     @PostMapping("/login")
     public Result<?> login(@RequestBody User user) {
-        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().
-                eq(User::getUsername, user.getUsername()).
-                eq(User::getPassword, user.getPassword()));
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",user.getUsername());
+        queryWrapper.eq("password",user.getPassword());
 
+        User res = userMapper.selectOne(queryWrapper);
         if (res == null) {
             return Result.error("-1", "用户名或密码错误");
         }
 
-        QueryWrapper wrapper = new QueryWrapper();
-        wrapper.eq("username", user.getUsername());//相当于where id=1
+        //从user_role_rbac视图中通过userid查询所有对应的role_id
+        Integer userId = user.getId();
+        List<UserRole> roleIds = roleMapper.getByUserId(userId);
 
-        User userInfo = userMapper.selectOne(wrapper);
+        List<Permission> permissionList = new ArrayList<>();
 
-        return Result.success(userInfo);
+        for (UserRole roleId : roleIds) {
+            //根据角色id查询所有的资源
+            permissionList.addAll(permissionMapper.getByRoleId(roleId.getRid()));
+        }
+
+        //重写equals和hashcode方法去除不同role中相同的permissionPath
+        HashSet<Permission> permissionSet = new HashSet<>(permissionList);
+        user.setPermissions(permissionSet);
+        user.getPermissions();
+
+        return Result.success(res);
     }
 
     @PostMapping("/register")

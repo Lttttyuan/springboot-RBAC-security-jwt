@@ -6,7 +6,8 @@
         router
         class="el-menu-vertical-demo"
     >
-      <el-sub-menu index="1" v-if="user.role == 1">
+<!--      v-if="user.role == 1"-->
+      <el-sub-menu index="1" >
         <template #title>
           <span>系统管理</span>
         </template>

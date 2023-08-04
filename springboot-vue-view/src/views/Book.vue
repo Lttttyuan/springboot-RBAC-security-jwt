@@ -2,9 +2,8 @@
   <div style="padding: 10px">
     <!--    功能区域-->
     <div style="margin: 10px 0">
-      <el-button type="primary" @click="add" v-if="user.role == 1">新增</el-button>
+      <el-button type="primary" @click="add">新增</el-button>
       <el-popconfirm
-          v-if="user.role === 1"
           title="确定删除吗？"
           @confirm="deleteBatch"
       >
@@ -43,7 +42,7 @@
       <el-table-column prop="author" label="年龄"/>
       <el-table-column prop="createTime" label="出版时间"/>
 
-      <el-table-column label="操作" v-if="user.role == 1">
+      <el-table-column label="操作">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
 

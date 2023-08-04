@@ -1,11 +1,11 @@
 server:
-  port: 8081
+  port: 8088
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #    url: jdbc:mysql://47.113.221.249:3306/db_springboot-vue?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8
-    url: jdbc:mysql://localhost:3306/db_springboot-vue?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8
+    url: jdbc:mysql://localhost:3306/db_rbac?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8
     #url: jdbc:mysql://localhost:3306/springboot-vue?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 123456
