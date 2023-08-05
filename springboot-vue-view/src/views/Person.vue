@@ -26,6 +26,9 @@
         <el-form-item label="地址" :label-width="formLabelWidth" prop="sex">
           <el-input v-model="form.address"/>
         </el-form-item>
+        <el-form-item label="角色" :label-width="formLabelWidth" prop="sex">
+          <el-input v-model="form.role" disabled/>
+        </el-form-item>
         <div style="text-align: center">
           <el-button type="primary" @click="update">保存</el-button>
         </div>

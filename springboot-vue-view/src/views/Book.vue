@@ -21,7 +21,7 @@
 
     <el-table :data="tableData" border stripe style="width: auto" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"/>
-      <el-table-column prop="id" label="id" sortable/>
+      <el-table-column prop="id" label="id" sortable width="80"/>
       <el-table-column prop="name" label="书籍名称"/>
 
       <el-table-column label="封面">

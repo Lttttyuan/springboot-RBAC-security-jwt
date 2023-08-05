@@ -7,7 +7,7 @@
     </div>
 
     <el-table :data="tableData" border stripe style="width: auto">
-      <el-table-column prop="id" label="id" sortable/>
+      <el-table-column prop="id" label="id" sortable width="80"/>
       <el-table-column prop="title" label="标题"/>
       <el-table-column prop="author" label="作者"/>
       <el-table-column prop="time" label="时间"/>

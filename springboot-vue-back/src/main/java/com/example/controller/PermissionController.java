@@ -10,9 +10,8 @@ import com.example.entity.Permission;
 import com.example.mapper.PermissionMapper;
 import com.example.service.IPermissionService;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
+
 
 /**
  * <p>
@@ -39,7 +38,7 @@ public class PermissionController {
 
         LambdaQueryWrapper<Permission> wrapper = Wrappers.<Permission>lambdaQuery();
         if(StrUtil.isNotBlank(search)){
-            wrapper.like(Permission::getPermissionPath, search);
+            wrapper.like(Permission::getPermissionName, search);
         }
 
         Page<Permission> permissionPage = permissionMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);

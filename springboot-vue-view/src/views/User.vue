@@ -12,7 +12,7 @@
     </div>
 
     <el-table :data="tableData" border stripe style="width: auto">
-      <el-table-column prop="id" label="id" sortable/>
+      <el-table-column prop="id" label="id" sortable width="80"/>
       <el-table-column prop="username" label="用户名"/>
       <el-table-column prop="nickName" label="昵称"/>
       <el-table-column prop="age" label="年龄"/>
