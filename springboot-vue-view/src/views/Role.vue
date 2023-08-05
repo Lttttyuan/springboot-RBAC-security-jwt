@@ -16,15 +16,13 @@
         border
         stripe
         style="width: 100%">
-      <el-table-column prop="pid" label="id" sortable width="80"></el-table-column>
-      <el-table-column prop="permissionName" label="名称"></el-table-column>
-      <el-table-column prop="permissionPath" label="路径"></el-table-column>
-      <el-table-column prop="permissionComment" label="备注"></el-table-column>
-      <el-table-column prop="icon" label="图标"></el-table-column>
+      <el-table-column prop="rid" label="id" sortable width="80"></el-table-column>
+      <el-table-column prop="roleName" label="名称"></el-table-column>
+      <el-table-column prop="roleComment" label="备注"></el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
           <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-popconfirm title="确定删除吗？" @confirm="handleDelete(scope.row.pid)">
+          <el-popconfirm title="确定删除吗？" @confirm="handleDelete(scope.row.rid)">
             <template #reference>
               <el-button size="mini" type="danger">删除</el-button>
             </template>
@@ -48,16 +46,10 @@
     <el-dialog title="提示" v-model="dialogVisible" width="30%" :lock-scroll="false" :append-to-body="true">
       <el-form :model="form" label-width="120px">
         <el-form-item label="名称">
-          <el-input v-model="form.permissionName" style="width: 80%"></el-input>
-        </el-form-item>
-        <el-form-item label="路径">
-          <el-input v-model="form.permissionPath" style="width: 80%"></el-input>
+          <el-input v-model="form.roleName" style="width: 80%"></el-input>
         </el-form-item>
         <el-form-item label="备注">
-          <el-input v-model="form.permissionComment" style="width: 80%"></el-input>
-        </el-form-item>
-        <el-form-item label="图标">
-          <el-input v-model="form.icon" style="width: 80%"></el-input>
+          <el-input v-model="form.roleComment" style="width: 80%"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -76,7 +68,7 @@
 import request from "@/utils/request";
 
 export default {
-  name: 'Permission',
+  name: 'Role',
   components: {},
   data() {
     return {
@@ -96,7 +88,7 @@ export default {
   methods: {
     load() {
       this.loading = true
-      request.get("/permission/findPage", {
+      request.get("/role/findPage", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -114,7 +106,7 @@ export default {
     },
     save() {
       if (this.form.pid) {  // 更新
-        request.put("/permission/updata", this.form).then(res => {
+        request.put("/role/updata", this.form).then(res => {
           console.log(res)
           if (res.code === '0') {
             this.$message({
@@ -135,7 +127,7 @@ export default {
         let user = JSON.parse(userStr)
         this.form.author = user.nickName
 
-        request.post("/permission/save", this.form).then(res => {
+        request.post("/role/save", this.form).then(res => {
           console.log(res)
           if (res.code === '0') {
             this.$message({
@@ -159,9 +151,9 @@ export default {
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogVisible = true
     },
-    handleDelete(pid) {
-      console.log(pid)
-      request.delete("/permission/delete/" + pid).then(res => {
+    handleDelete(rid) {
+      console.log(rid)
+      request.delete("/role/delete/" + rid).then(res => {
         if (res.code === '0') {
           this.$message({
             type: "success",
