@@ -11,7 +11,7 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="$router.push('/person')">个人信息</el-dropdown-item>
+<!--            <el-dropdown-item @click="$router.push('/person')">个人信息</el-dropdown-item>-->
             <el-dropdown-item @click="exit">退出系统</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -31,11 +31,6 @@ export default {
       username: JSON.parse(sessionStorage.getItem("userInfo")).username //获取登录时的用户名
     }
   },
-  // computed: {
-  //   username() {
-  //     return Cookies.get('username') //获取登录时的用户名
-  //   }
-  // },
   methods:{
     exit(){
       router.push('/login')

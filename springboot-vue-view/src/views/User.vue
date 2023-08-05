@@ -102,7 +102,6 @@ import request from "@/utils/request";
 
 export default {
   name: "User",
-  components: {},
   data() {
     return {
       form:{},

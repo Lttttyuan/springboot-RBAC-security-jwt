@@ -1,10 +1,5 @@
 <template>
   <div style="padding: 10px">
-    <!--    功能区域-->
-    <div style="margin: 10px 0">
-      <el-button type="primary" @click="add">新增</el-button>
-    </div>
-
     <!--    搜索区域-->
     <div style="margin: 10px 0;width: 20%;display: flex">
       <el-input v-model="search" placeholder="请输入新闻标题查询" clearable/>
@@ -87,7 +82,7 @@
 
 <script>
 import request from "@/utils/request";
-import MyEditor from "@/components/MyEditor";
+import MyEditor from "@/views/MyEditor";
 
 export default {
   name: "News",

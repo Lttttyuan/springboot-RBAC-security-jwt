@@ -3,6 +3,6 @@
 <mapper namespace="com.example.mapper.RoleMapper">
 
     <select id="getByUserId" resultType="com.example.entity.UserRole">
-        SELECT rid,uid FROM user_role_rbac WHERE uid = #{userid};
+        SELECT rid,uid id FROM user_role_rbac WHERE uid = #{userid};
     </select>
 </mapper>

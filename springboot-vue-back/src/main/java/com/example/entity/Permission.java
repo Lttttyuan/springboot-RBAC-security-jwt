@@ -44,6 +44,9 @@ public class Permission implements Serializable {
     @ApiModelProperty(value = "备注")
     private String permissionComment;
 
+    @ApiModelProperty(value = "图标")
+    private String icon;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

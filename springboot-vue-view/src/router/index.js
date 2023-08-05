@@ -1,22 +1,14 @@
 // history: 引入-createWebHistory
-// import {createRouter, createWebHistory} from "vue-router"
+import {createRouter, createWebHistory} from "vue-router"
 
 // hash: 引入-createWebHistory
-import { createRouter, createWebHashHistory } from 'vue-router';
+// import { createRouter, createWebHashHistory } from 'vue-router';
 
 // const Foo = defineAsyncComponent(() => import('./Foo.vue'))
 
 // import Login from "@/views/Login";
 import {defineAsyncComponent} from "vue";
-const NotFound = defineAsyncComponent(() =>import('../views/NotFound'))
-const Login = defineAsyncComponent(() =>import('../views/Login'))
 const Layout = defineAsyncComponent(() =>import('../layout/Layout'))
-const Person = defineAsyncComponent(() =>import('../views/Person'))
-const User = defineAsyncComponent(() =>import('../views/User'))
-const Book = defineAsyncComponent(() =>import('../views/Book'))
-const News = defineAsyncComponent(() =>import('../views/News'))
-const Category = defineAsyncComponent(() =>import('../views/Category'))
-const MyEditor = defineAsyncComponent(() =>import('../components/MyEditor'))
 
 const routes = [
     {
@@ -26,56 +18,80 @@ const routes = [
         redirect: "/login",
         children: [
             {
-                path: '/user',
-                name: 'User',
-                component: User
-            },
-            {
-                path: '/person',
-                name: 'Person',
-                component: Person
-            },
-            {
-                path: '/book',
-                name: 'Book',
-                component: Book
-            },
-            {
-                path: '/news',
-                name: 'News',
-                component: News
-            },
-            {
-                path: '/myEditor',
-                name: 'MyEditor',
-                component: MyEditor
-            },
-            {
-                path: '/category',
-                name: 'Category',
-                component: Category
+                path: '/home',
+                name: 'Home',
+                component: () =>import('../views/Home')
             }
         ]
     },
     {
         path: '/login',
         name: 'Login',
-        component: Login
+        component: () =>import('../views/Login')
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: () =>import('../views/Register')
     },
     {
         path: '/:path(.*)',
-        component: NotFound
+        name: 'NotFound',
+        component: () =>import('../views/NotFound')
     }
 ]
 
 
 const router = createRouter({
     // history: 引入-createWebHistory
-    // history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(process.env.BASE_URL),
 
     // hash: 引入-createWebHashHistory
-    history: createWebHashHistory(),
+    // history: createWebHashHistory(),
     routes
 });
+
+// 在刷新页面的时候重置当前路由
+activeRouter()
+
+function activeRouter() {
+    const userStr = sessionStorage.getItem("userInfo")
+    if (userStr) {
+        const user = JSON.parse(userStr)
+        let root = {
+            path: '/',
+            name: 'Layout',
+            component: Layout,
+            redirect: "/login",
+            children: []
+        }
+        user.permissions.forEach(p => {
+            let obj = {
+                path: p.permissionPath,
+                name: p.permissionName,
+                component: () => import('../views/' + p.permissionName)
+            };
+            root.children.push(obj)
+        })
+        if (router) {
+            router.addRoute(root)
+        }
+    }
+}
+
+router.beforeEach((to, from, next) => {
+    if (to.path === '/login' || to.path === '/register') {
+        next()
+        return
+    }
+    let user = sessionStorage.getItem("userInfo") ? JSON.parse(sessionStorage.getItem("userInfo")) : {}
+    if (!user.permissions || !user.permissions.length) {
+        next('/login')
+    } else if (!user.permissions.find(p => p.permissionPath === to.path)) {
+        next('/login')
+    } else {
+        next()
+    }
+})
 
 export default router

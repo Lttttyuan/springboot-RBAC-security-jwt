@@ -48,6 +48,7 @@ import '@wangeditor/editor/dist/css/style.css';
 import {onBeforeUnmount, ref, shallowRef, watch} from 'vue';
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue';
 import request from "@/utils/request";
+import router from "@/router";
 
 export default {
   name: "MyEdtior",
@@ -77,8 +78,6 @@ export default {
   },
   methods: {
     saveEditor() {
-      this.form.author = this.forms.author
-      this.form.time = this.forms.time
       if (this.valueHtml == "<p><br></p>") {
         this.$message.error("请输入文本内容!")
         return
@@ -86,6 +85,8 @@ export default {
       this.form.content = this.valueHtml
 
       if (this.form.id) { //更新
+        this.form.author = this.forms.author
+        this.form.time = this.forms.time
         request.put("/news/updata", this.form).then(res => {
           console.log(res);
 
@@ -98,8 +99,9 @@ export default {
             this.$message.error("更新失败")
           }
         })
-        this.$router.go(0)
+        router.push("/news")
       } else { //新增
+        this.form.author = JSON.parse(sessionStorage.getItem("userInfo")).username //获取登录时的用户名
         request.post("/news/save", this.form).then(res => {
           console.log(res);
 
@@ -116,7 +118,7 @@ export default {
           }
         })
       }
-      this.$router.go(0)
+      router.push("/news")
     },
     dataInfo(){
       if (this.forms != null) {

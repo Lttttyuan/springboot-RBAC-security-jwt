@@ -3,6 +3,6 @@
 <mapper namespace="com.example.mapper.PermissionMapper">
 
     <select id="getByRoleId" resultType="com.example.entity.Permission">
-        SELECT pid,permission_name,permission_path,permission_comment FROM role_permission_rbac WHERE rid = #{rid};
+        SELECT pid,permission_name,permission_path,permission_comment,icon FROM role_permission_rbac WHERE rid = #{rid};
     </select>
 </mapper>

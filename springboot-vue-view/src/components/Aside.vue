@@ -6,22 +6,14 @@
         router
         class="el-menu-vertical-demo"
     >
-<!--      v-if="user.role == 1"-->
-      <el-sub-menu index="1" >
-        <template #title>
-          <span>系统管理</span>
-        </template>
-        <el-menu-item index="user">用户管理</el-menu-item>
-      </el-sub-menu>
 
-      <el-menu-item index="book">
-        <span>书籍管理</span>
-      </el-menu-item>
-      <el-menu-item index="news" v-if="user.role == 2">
-        <span>新闻管理</span>
-      </el-menu-item>
-      <el-menu-item index="Category" v-if="user.role == 1">
-        <span>分类管理</span>
+      <el-menu-item :index="menu.permissionPath" v-for="menu in user.permissions" :key="menu.pid">
+        <template #title>
+          <el-icon :size="20">
+            <component :is="menu.icon" />
+          </el-icon>
+          <span>{{menu.permissionComment}}</span>
+        </template>
       </el-menu-item>
 
     </el-menu>
@@ -44,11 +36,11 @@ export default {
     this.user = JSON.parse(userStr)
 
     // 请求服务器，确认当前登录用户的合法信息
-    request.get("/user/findId/" + this.user.id).then(res =>{
-      if (res.code === '0'){
-        this.user = res.data
-      }
-    })
+    // request.get("/user/findId/" + this.user.id).then(res =>{
+    //   if (res.code === '0'){
+    //     this.user = res.data
+    //   }
+    // })
   }
 }
 </script>

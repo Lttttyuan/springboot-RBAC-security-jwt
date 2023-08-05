@@ -19,9 +19,9 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -56,28 +56,31 @@ public class UserController {
         queryWrapper.eq("username",user.getUsername());
         queryWrapper.eq("password",user.getPassword());
 
-        User res = userMapper.selectOne(queryWrapper);
-        if (res == null) {
+        //查询当前登录的用户
+        User loginUser = userMapper.selectOne(queryWrapper);
+        if (loginUser == null) {
             return Result.error("-1", "用户名或密码错误");
         }
 
-        //从user_role_rbac视图中通过userid查询所有对应的role_id
-        Integer userId = user.getId();
+        //1.通过userid从user_role_rbac视图中查询所有对应的role_id
+        Integer userId = loginUser.getId();
         List<UserRole> roleIds = roleMapper.getByUserId(userId);
 
-        List<Permission> permissionList = new ArrayList<>();
+        //HashSet去除重复的资源路径,重写equals和hashcode方法去除不同role中相同的permissionPath
+        HashSet<Permission> permissionSet = new HashSet<>();
 
         for (UserRole roleId : roleIds) {
-            //根据角色id查询所有的资源
-            permissionList.addAll(permissionMapper.getByRoleId(roleId.getRid()));
+            //2.根据角色rid从user_role_rbac视图中查询所有的permission
+            permissionSet.addAll(permissionMapper.getByRoleId(roleId.getRid()));
         }
 
-        //重写equals和hashcode方法去除不同role中相同的permissionPath
-        HashSet<Permission> permissionSet = new HashSet<>(permissionList);
-        user.setPermissions(permissionSet);
-        user.getPermissions();
+        //对资源根据pid进行排序
+        LinkedHashSet<Permission> permissionsSort = permissionSet.stream().sorted(Comparator.comparing(Permission::getPid)).collect(Collectors.toCollection(LinkedHashSet::new));
 
-        return Result.success(res);
+        //设置当前用户的资源信息
+        loginUser.setPermissions(permissionsSort);
+
+        return Result.success(loginUser);
     }
 
     @PostMapping("/register")
