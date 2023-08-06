@@ -115,7 +115,7 @@ export default {
           } else {
             this.$message({
               type: "error",
-              message: res.msg
+              message: "注册失败"
             })
             this.form = {} //刷新表单
           }

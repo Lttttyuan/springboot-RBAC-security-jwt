@@ -14,6 +14,7 @@
     <el-table :data="tableData" border stripe style="width: auto">
       <el-table-column prop="id" label="id" sortable width="80"/>
       <el-table-column prop="username" label="用户名"/>
+      <el-table-column prop="password" label="密码"/>
       <el-table-column prop="nickName" label="昵称"/>
       <el-table-column prop="age" label="年龄"/>
       <el-table-column prop="sex" label="性别"/>
@@ -33,7 +34,7 @@
               :icon="InfoFilled"
               icon-color="#626AEF"
               title="确认要删除吗？"
-              @confirm = "handleDelete(scope.row.id)"
+              @confirm="handleDelete(scope.row.id)"
           >
             <template #reference>
               <el-button size="small" type="danger">删除</el-button>
@@ -59,13 +60,16 @@
       />
     </div>
 
-<!--新增弹窗-->
-<!--    lock-scroll	是否在 Dialog 出现时将 body 滚动锁定-->
-<!--    append-to-body	Dialog 自身是否插入至 body 元素上。 嵌套的 Dialog 必须指定该属性并赋值为 true-->
+    <!--新增弹窗-->
+    <!--    lock-scroll	是否在 Dialog 出现时将 body 滚动锁定-->
+    <!--    append-to-body	Dialog 自身是否插入至 body 元素上。 嵌套的 Dialog 必须指定该属性并赋值为 true-->
     <el-dialog v-model="dialogVisible" :lock-scroll="false" :append-to-body="true" title="新增" width="30%">
       <el-form :model="form">
         <el-form-item label="用户名：" :label-width="formLabelWidth">
           <el-input v-model="form.username" style="width: 80%"/>
+        </el-form-item>
+        <el-form-item label="密码：" :label-width="formLabelWidth">
+          <el-input type="password" v-model="form.password" style="width: 80%" show-password/>
         </el-form-item>
         <el-form-item label="昵称：" :label-width="formLabelWidth">
           <el-input v-model="form.nickName" style="width: 80%"/>
@@ -85,9 +89,12 @@
           <el-input type="textarea" v-model="form.address" style="width: 80%"/>
         </el-form-item>
 
-        <el-form-item label="角色：" :label-width="formLabelWidth">
-          <el-input v-model="form.role" style="width: 80%" disabled/>
+        <el-form-item label="权限管理：" :label-width="formLabelWidth">
+          <el-checkbox-group v-model="userRole" style="margin-left: 20px">
+            <el-checkbox :label="role.roleName" v-for="role in roleAll" :key="role.rid"/>
+          </el-checkbox-group>
         </el-form-item>
+
       </el-form>
       <template #footer>
       <span class="dialog-footer">
@@ -108,99 +115,147 @@ export default {
   name: "User",
   data() {
     return {
-      form:{},
-      formLabelWidth:120,
-      dialogVisible:false,
+      form: {},
+      formLabelWidth: 120,
+      dialogVisible: false,
       currentPage: 1,
       pageSize: 10,
       total: 0,
       search: '',
-      tableData: []
+      tableData: [],
+      roleAll: [],
+      userRole:[]
     }
   },
   //加载页面
-  created(){
+  created() {
     this.findPage()
+    this.findRoleAll()
   },
   methods: {
     //分页查询
-    findPage(){
-      request.get("/user/findPage",{
-        params:{
+    findPage() {
+      request.get("/user/findPage", {
+        params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
           search: this.search
         }
-      }).then(res =>{
+      }).then(res => {
         console.log(res)
         this.tableData = res.data.records
         this.total = res.data.total
       })
     },
+    //查询数据库中所有的角色
+    findRoleAll() {
+      request.get("/role/findPage").then((res) => {
+        console.log(res.data)
+        this.roleAll = res.data.records
+        console.log(this.roleAll)
+      })
+    },
+
     //新增
     add() {
       this.dialogVisible = true;
       //清空表单域
       this.form = {}
     },
+
+    //设置用户角色
+    changeRole(){
+      console.log(this.userRole)
+      //将userRole数组转为字符串
+      this.form.role = this.userRole.join(',')
+      console.log(this.form)
+      if (this.form.id) {
+        request.put("/userRole/updata/changeUserRole", this.form).then((res) => {
+          if (res.code == '0') {
+            this.$message.success("角色权限设置成功")
+          } else {
+            this.$message.error("角色权限设置失败")
+          }
+        })
+      }else {
+        request.post("/userRole/save/changeUserRole", this.form).then((res) => {
+          if (res.code == '0') {
+            this.$message.success("角色权限设置成功")
+          } else {
+            this.$message.error("角色权限设置失败")
+          }
+        })
+      }
+    },
     //确认按钮
-    save(){
-      if(this.form.id){ //更新
-        request.put("/user/updata",this.form).then(res =>{
+    save() {
+      this.form.role = this.userRole.join(',')
+      if (this.form.id) { //更新
+        request.put("/user/updata", this.form).then(res => {
           console.log(res);
 
-          if(res.code == '0'){
+          if (res.code == '0') {
             this.$message({
-              type:"success",
-              message:"更新成功"
+              type: "success",
+              message: "更新成功"
             })
-          }else {
+            this.changeRole()
+          } else {
             this.errorInfo(res)
           }
         })
-      }else { //新增
-        request.post("/user/save",this.form).then(res =>{
+      } else { //新增
+        request.post("/user/save", this.form).then(res => {
           console.log(res);
 
-          if (res.code == '0'){
+          if (res.code == '0') {
             this.$message({
-              type:"success",
-              message:"新增成功"
+              type: "success",
+              message: "新增成功"
             })
-          }else {
+            this.changeRole()
+          } else {
             this.$message({
-              type:"success",
-              message:"新增失败"
+              type: "success",
+              message: "新增失败"
             })
           }
         })
       }
-
-      this.findPage() //刷新表格数据
       this.dialogVisible = false //关闭弹窗
+      this.findPage() //刷新表格数据
+
+      //如果当前修改的id为当前登录的用户的id则跳转到登录界面
+      let user = JSON.parse(sessionStorage.getItem("userInfo"))
+      if (this.form.id == user.id){
+        this.$router.push("/login")
+      }
     },
     //编辑
     handleEdit(row) {
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogVisible = true
+
+      //将role字符串转为数组
+      this.userRole = this.form.role.split(',')
     },
     //报错信息弹窗
-    errorInfo(res){
+    errorInfo(res) {
       this.$message({
-        type:"error",
-        message:res.msg
+        type: "error",
+        message: res.msg
       })
     },
     //删除
     handleDelete(id) {
       console.log(id)
-      request.delete("/user/delete/" + id).then(res =>{
-        if(res.code == '0'){
+      request.delete("/user/delete/" + id).then(res => {
+        if (res.code == '0') {
           this.$message({
-            type:"success",
-            message:"删除成功"
+            type: "success",
+            message: "删除成功"
           })
-        }else {
+        } else {
           this.errorInfo(res)
         }
         this.findPage()  //删除之后重新刷新表格数据

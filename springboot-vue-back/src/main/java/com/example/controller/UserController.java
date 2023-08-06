@@ -14,6 +14,7 @@ import com.example.entity.UserRole;
 import com.example.mapper.PermissionMapper;
 import com.example.mapper.RoleMapper;
 import com.example.mapper.UserMapper;
+import com.example.mapper.UserRoleMapper;
 import com.example.service.IUserService;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +48,9 @@ public class UserController {
 
     @Resource
     PermissionMapper permissionMapper;
+
+    @Resource
+    UserRoleMapper userRoleMapper;
 
     //登录
     //不能存在相同用户名
@@ -90,10 +94,11 @@ public class UserController {
         if (res != null) {
             return Result.error("-1", "用户名重复");
         }
-        if (user.getPassword() == null) {
-            user.setPassword("123456");
-        }
         iUserService.save(user);
+
+        //注册用户默认为普通用户，更改权限需要管理员进行更改
+        userRoleMapper.insertUidAndRid(user.getId(),2);
+
         return Result.success();
     }
 
@@ -146,6 +151,7 @@ public class UserController {
             user.setPassword("123456");
         }
         iUserService.save(user);
+
         return Result.success();
     }
 

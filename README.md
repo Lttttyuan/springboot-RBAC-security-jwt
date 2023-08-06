@@ -1,5 +1,5 @@
 # springboot-RBAC-demo
-基于springboot-vue-demo加入的RBAC权限模型
+基于springboot-vue-demo加入的RBAC权限模型，还有一些小bug
 学习b站青戈简易的后台管理系统
 
 测试账号：

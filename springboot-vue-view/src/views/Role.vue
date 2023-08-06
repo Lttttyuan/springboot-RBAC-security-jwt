@@ -19,8 +19,18 @@
       <el-table-column prop="rid" label="id" sortable width="80"></el-table-column>
       <el-table-column prop="roleName" label="名称"></el-table-column>
       <el-table-column prop="roleComment" label="备注"></el-table-column>
+      <el-table-column label="权限菜单">
+        <template #default="scope">
+          <el-form-item>
+            <el-select clearable v-model="scope.row.permissions" multiple placeholder="请选择" style="width: 80%">
+              <el-option v-for="item in permissions" :key="item.pid" :label="item.permissionComment" :value="item.pid"></el-option>
+            </el-select>
+          </el-form-item>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
+          <el-button size="mini" type="primary" @click="changeRolePermission(scope.row)">保存权限菜单</el-button>
           <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
           <el-popconfirm title="确定删除吗？" @confirm="handleDelete(scope.row.rid)">
             <template #reference>
@@ -80,12 +90,28 @@ export default {
       pageSize: 10,
       total: 0,
       tableData: [],
+      permissions: []
     }
   },
   created() {
     this.load()
   },
   methods: {
+    changeRolePermission(row){
+      request.put("/role/changePermission",row).then((res) =>{
+        if (res.code === '0'){
+          console.log(row.roleName)
+          this.$message.success("更新权限成功")
+          //当前登录的用户id如果等于当前操作行的角色id，那么就需要重新登陆
+          let user = JSON.parse(sessionStorage.getItem("userInfo"))
+          console.log(user.role)
+          // 注意：!=-1即为为真，可以找到得情况
+          if (user.role.search(row.roleName) != -1){
+            this.$router.push('/login')
+          }
+        }
+      })
+    },
     load() {
       this.loading = true
       request.get("/role/findPage", {
@@ -98,6 +124,11 @@ export default {
         this.loading = false
         this.tableData = res.data.records
         this.total = res.data.total
+        console.log(this.tableData)
+      })
+
+      request.get("/permission/all/").then(res => {
+        this.permissions = res.data
       })
     },
     add() {

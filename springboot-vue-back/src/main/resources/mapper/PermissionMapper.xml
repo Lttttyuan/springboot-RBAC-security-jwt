@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.PermissionMapper">
+    <delete id="deletePermissionByRoleId">
+        delete from role_permission where role_id = #{rid}
+    </delete>
 
     <select id="getByRoleId" resultType="com.example.entity.Permission">
         SELECT pid,permission_name,permission_path,permission_comment,icon FROM role_permission_rbac WHERE rid = #{rid};
     </select>
+
+    <insert id="insertRoleAndPermission">
+        insert into role_permission(role_id,permission_id) values (#{rid},#{pid});
+    </insert>
 </mapper>
