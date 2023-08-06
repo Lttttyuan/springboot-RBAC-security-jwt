@@ -1,5 +1,7 @@
 # springboot-RBAC-demo
 基于springboot-vue-demo加入的RBAC权限模型，还有一些小bug
+未完成：linux环境下无法上传图片
+
 学习b站青戈简易的后台管理系统
 
 测试账号：

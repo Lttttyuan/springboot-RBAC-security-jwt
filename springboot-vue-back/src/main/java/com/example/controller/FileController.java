@@ -29,12 +29,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/files")
 public class FileController {
-
-    @Resource
-    IBookService iBookService;
-
-    @Resource
-    BookMapper bookMapper;
     @Value("${server.port}")
     private String port;
 
@@ -94,20 +88,4 @@ public class FileController {
         }
     }
 
-//    @PostMapping("/updataCover")
-//    public Result<?> delete(@RequestBody Book book) {
-//        String cover = book.getCover();
-//
-//        book.setCover(null);
-//        bookMapper.updateById(book);
-//
-//        return Result.success();
-//    }
-
-    //编辑
-    @PutMapping("/updata")
-    public Result<?> updata(@RequestBody Book book) {
-        iBookService.updateById(book);
-        return Result.success();
-    }
 }

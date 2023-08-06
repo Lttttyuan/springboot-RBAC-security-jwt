@@ -3,4 +3,9 @@
 <mapper namespace="com.example.mapper.BookMapper">
 
 
+    <update id="updateCoverById">
+        update book
+        set cover = null
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
 </mapper>

@@ -1,9 +1,13 @@
 package com.example.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.controller.UserAddressDto;
 import com.example.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +21,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper extends BaseMapper<User> {
 
     Page<User> findPage(Page<User> page);
+
+    @Select("select count(id) count, address from user GROUP BY address")
+    List<UserAddressDto> countAddress();
 }

@@ -108,14 +108,6 @@
               </div>
             </template>
           </el-upload>
-<!--          <el-popconfirm-->
-<!--              title="确定删除吗？"-->
-<!--              @confirm="deleteCover"-->
-<!--          >-->
-<!--            <template #reference>-->
-<!--              <el-button type="danger" >删除封面</el-button>-->
-<!--            </template>-->
-<!--          </el-popconfirm>-->
         </el-form-item>
       </el-form>
 
@@ -156,7 +148,7 @@ export default {
       total: 0,
       search: '',
       tableData: [],
-      filesUploadUrl: "http://" + window.server.filesUploadUrl + ":8081/files/upload",
+      filesUploadUrl: "http://" + window.server.filesUploadUrl + ":8088/files/upload",
       ids: [] //当前选框选中的值
     }
   },
@@ -252,9 +244,8 @@ export default {
           }
         })
       }
-
-      this.findPage() //刷新表格数据
       this.dialogVisible = false //关闭弹窗
+      this.findPage() //刷新表格数据
     },
     //编辑
     handleEdit(row) {

@@ -144,6 +144,20 @@ public class UserController {
         return Result.success(user);
     }
 
+    //查询所有的用户信息
+    @GetMapping("/count")
+    public Result<?> findAll() {
+        List<UserAddressDto> userAddressList = userMapper.countAddress();
+        //如果地址为空则设置为未知
+        for (UserAddressDto userAddressDto : userAddressList) {
+            if (userAddressDto.getAddress() == null){
+                userAddressDto.setAddress("未知");
+            }
+        }
+
+        return Result.success(userAddressList);
+    }
+
     //新增
     @PostMapping("/save")
     public Result<?> save(@RequestBody User user) {

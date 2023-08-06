@@ -33,3 +33,5 @@ mybatis-plus:
 #    spring.servlet.multipart.max-request-size=10MB
 #    # 临时文件存储路径
 #    spring.servlet.multipart.location=/tmp
+web:
+  upload-path: /root/files
