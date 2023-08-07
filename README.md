@@ -10,7 +10,7 @@
 普通用户：账号：10 密码：10
 
 服务器部署地址：
-http://47.113.221.249:8081/#/login
+http://47.113.221.249:8088/#/login
 
 技术栈：springboot+vue3+mybatis-plus+MySQL+wangEditor5富文本编辑器
 

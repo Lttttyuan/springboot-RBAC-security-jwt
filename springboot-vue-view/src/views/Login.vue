@@ -1,9 +1,9 @@
 <template>
-  <div class="layout">
+  <div class="logincontent" @touchmove.prevent @mousewheel.prevent>
     <el-tabs type="border-card">
       <el-tab-pane label="登录">
         <el-form ref="from" :model="form" label-position="right" label-width="85px" style="max-width: 460px"
-                 :rules="rules" :hide-required-asterisk="true">
+                 class="loginForm"   :rules="rules" :hide-required-asterisk="true">
           <el-form-item label="用户名：" prop="username">
             <el-input :prefix-icon="Avatar" v-model="form.username"/>
           </el-form-item>
@@ -122,8 +122,25 @@ export default {
   top: 20%;
   width: 400px;
 }
+.logincontent {
+  display: flex;
+  flex-direction: column;
+  background-image: url("../img/loginCover.jpg");
+  background-size: 100% 100%;
+  background-attachment: fixed;
 
-.loginForm {
-  text-align: center;
+  width: 100%;
+  height: 100%;
+  min-width: 900px;
+  min-height: 1000px;
+
+  justify-content: center;
+  align-items: center;
+}
+.loginform {
+  background-color: #fff;
+  min-width: 600px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 15px 30px;
+  padding: 30px 20px;
 }
 </style>

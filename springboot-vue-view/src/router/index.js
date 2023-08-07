@@ -1,10 +1,8 @@
 // history: 引入-createWebHistory
-import {createRouter, createWebHistory} from "vue-router"
+// import {createRouter, createWebHistory} from "vue-router"
 
 // hash: 引入-createWebHistory
-// import { createRouter, createWebHashHistory } from 'vue-router';
-
-// const Foo = defineAsyncComponent(() => import('./Foo.vue'))
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 // import Login from "@/views/Login";
 import {defineAsyncComponent} from "vue";
@@ -44,10 +42,10 @@ const routes = [
 
 const router = createRouter({
     // history: 引入-createWebHistory
-    history: createWebHistory(process.env.BASE_URL),
+    // history: createWebHistory(process.env.BASE_URL),
 
     // hash: 引入-createWebHashHistory
-    // history: createWebHashHistory(),
+    history: createWebHashHistory(),
     routes
 });
 
