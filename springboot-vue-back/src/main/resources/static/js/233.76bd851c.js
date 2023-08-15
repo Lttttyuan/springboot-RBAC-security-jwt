@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkspringboot_vue_view"]=self["webpackChunkspringboot_vue_view"]||[]).push([[233],{1233:function(n,t,e){e.r(t),e.d(t,{default:function(){return l}});var u=e(3396);const r=(0,u._)("h1",null,"找不到页面请返回！！！",-1);function o(n,t,e,o,i,s){const c=(0,u.up)("el-button");return(0,u.wg)(),(0,u.iD)("div",null,[r,(0,u.Wm)(c,{type:"primary",onClick:t[0]||(t[0]=n=>this.$router.go(-1))},{default:(0,u.w5)((()=>[(0,u.Uk)("返回")])),_:1})])}var i={name:"NotFound"},s=e(89);const c=(0,s.Z)(i,[["render",o]]);var l=c}}]);
-//# sourceMappingURL=233.76bd851c.js.map

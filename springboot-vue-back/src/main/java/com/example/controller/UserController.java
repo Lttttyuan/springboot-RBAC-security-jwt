@@ -71,7 +71,7 @@ public class UserController {
         List<UserRole> roleIds = roleMapper.getByUserId(userId);
 
         //HashSet去除重复的资源路径,重写equals和hashcode方法去除不同role中相同的permissionPath
-        HashSet<Permission> permissionSet = new HashSet<>();
+        HashSet<Permission> permissionSet = new HashSet<>(); 
 
         for (UserRole roleId : roleIds) {
             //2.根据角色rid从user_role_rbac视图中查询所有的permission

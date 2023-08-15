@@ -1,0 +1,10 @@
+#生产环境
+server:
+  port: 8083
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.113.221.249:3306/db_rbac?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8
+    username: root
+    password: 123456
