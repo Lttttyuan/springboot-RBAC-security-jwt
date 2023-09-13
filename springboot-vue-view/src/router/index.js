@@ -53,7 +53,7 @@ const router = createRouter({
 activeRouter()
 
 function activeRouter() {
-    const userStr = sessionStorage.getItem("userInfo")
+    const userStr = localStorage.getItem("userInfo")
     if (userStr) {
         const user = JSON.parse(userStr)
         let root = {
@@ -82,7 +82,7 @@ router.beforeEach((to, from, next) => {
         next()
         return
     }
-    let user = sessionStorage.getItem("userInfo") ? JSON.parse(sessionStorage.getItem("userInfo")) : {}
+    let user = localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : {}
     if (!user.permissions || !user.permissions.length) {
         next('/login')
     } else if (!user.permissions.find(p => p.permissionPath === to.path)) {

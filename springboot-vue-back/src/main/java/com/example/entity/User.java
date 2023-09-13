@@ -58,7 +58,10 @@ public class User implements Serializable {
     private String role;
 
     @TableField(exist = false)
-    private Set<Permission> permissions;
+    private List<Permission> permissions;
+
+    @TableField(exist = false)
+    private String token;
 
     @TableField(exist = false)
     private List<Book> bookList;

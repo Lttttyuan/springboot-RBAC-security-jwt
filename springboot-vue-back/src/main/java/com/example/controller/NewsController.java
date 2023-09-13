@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.common.Result;
+import com.example.utils.Result;
 import com.example.entity.News;
 import com.example.mapper.NewsMapper;
 import com.example.service.INewsService;

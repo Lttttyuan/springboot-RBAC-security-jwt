@@ -11,6 +11,7 @@ import 'font-awesome/css/font-awesome.min.css'
 
 //国际化
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import qs from 'qs'
 
 
 // 报错 ResizeObserver loop limit exceeded 解决
@@ -52,4 +53,5 @@ app.use(ElementPlus, {
 })
 app.use(store)
 app.use(router)
+app.use(qs)
 app.mount('#app')

@@ -12,13 +12,12 @@ const request = axios.create({
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
 
-    // config.headers['token'] = user.token;  // 设置请求头
-    //取出sessionStorage中缓存的用户信息
-    let userJson = sessionStorage.getItem("userInfo")
+    //取出localStorage中缓存的用户信息
+    let userJson = JSON.parse(localStorage.getItem("userInfo") || '{}')
     if (!userJson){
         router.push("/login")
     }
-
+    config.headers['token'] = userJson.token;  // 设置请求头
     return config
 }, error => {
     return Promise.reject(error)

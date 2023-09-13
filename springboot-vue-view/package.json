@@ -16,6 +16,7 @@
     "element-plus": "^2.3.7",
     "font-awesome": "^4.7.0",
     "js-cookie": "^3.0.5",
+    "qs": "^6.11.2",
     "vue": "^3.2.13",
     "vue-router": "^4.2.2",
     "vuex": "^4.0.2"

@@ -4,6 +4,7 @@ import java.util.Collection;
 import com.example.entity.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -23,6 +24,9 @@ public interface PermissionMapper extends BaseMapper<Permission> {
      * @return
      */
     List<Permission> getByRoleId(@Param("rid") Integer rid);
+
+    @Select("SELECT pid,permission_name,permission_path,permission_comment,icon FROM role_permission_rbac WHERE rid IN (SELECT rid FROM user_role_rbac WHERE uid = #{id}) GROUP BY permission_path ORDER BY pid;")
+    List<Permission> getAllPermissionsByUserId(@Param("id") Integer id);
 
     /**
      * 根据rid删除role_permission表中对应的资源pid

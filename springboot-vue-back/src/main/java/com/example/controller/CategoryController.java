@@ -1,7 +1,7 @@
 package com.example.controller;
 
 
-import com.example.common.Result;
+import com.example.utils.Result;
 import com.example.entity.Category;
 import com.example.mapper.CategoryMapper;
 import org.springframework.web.bind.annotation.*;

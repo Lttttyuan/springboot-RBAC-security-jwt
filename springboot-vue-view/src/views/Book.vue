@@ -156,7 +156,7 @@ export default {
   created() {
     this.findPage()
 
-    let userStr = sessionStorage.getItem("userInfo") || "{}"
+    let userStr = localStorage.getItem("userInfo") || "{}"
     this.user = JSON.parse(userStr)
 
     // 请求服务器，确认当前登录用户的合法信息

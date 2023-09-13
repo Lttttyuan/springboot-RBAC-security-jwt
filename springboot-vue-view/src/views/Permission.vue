@@ -131,7 +131,7 @@ export default {
           this.dialogVisible = false  // 关闭弹窗
         })
       } else {  // 新增
-        let userStr = sessionStorage.getItem("user") || "{}"
+        let userStr = localStorage.getItem("user") || "{}"
         let user = JSON.parse(userStr)
         this.form.author = user.nickName
 

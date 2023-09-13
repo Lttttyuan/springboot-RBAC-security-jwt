@@ -52,7 +52,7 @@ export default {
     }
   },
   created() {
-    let str = sessionStorage.getItem("userInfo") || "{}"
+    let str = localStorage.getItem("userInfo") || "{}"
     this.form = JSON.parse(str)
   },
   methods: {
@@ -61,7 +61,7 @@ export default {
         console.log(res)
         if (res.code === '0') {
           ElMessage.success("更新成功")
-          sessionStorage.setItem("userInfo", JSON.stringify(this.form))
+          localStorage.setItem("userInfo", JSON.stringify(this.form))
           // 触发Layout更新用户信息
           this.$emit("userInfo")
         } else {

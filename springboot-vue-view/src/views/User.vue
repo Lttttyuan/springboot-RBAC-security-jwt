@@ -14,7 +14,7 @@
     <el-table :data="tableData" border stripe style="width: auto">
       <el-table-column prop="id" label="id" sortable width="80"/>
       <el-table-column prop="username" label="用户名"/>
-      <el-table-column prop="password" label="密码"/>
+<!--      <el-table-column prop="password" label="密码"/>-->
       <el-table-column prop="nickName" label="昵称"/>
       <el-table-column prop="age" label="年龄"/>
       <el-table-column prop="sex" label="性别"/>
@@ -226,7 +226,7 @@ export default {
       this.findPage() //刷新表格数据
 
       //如果当前修改的id为当前登录的用户的id则跳转到登录界面
-      let user = JSON.parse(sessionStorage.getItem("userInfo"))
+      let user = JSON.parse(localStorage.getItem("userInfo"))
       if (this.form.id == user.id){
         this.$router.push("/login")
       }

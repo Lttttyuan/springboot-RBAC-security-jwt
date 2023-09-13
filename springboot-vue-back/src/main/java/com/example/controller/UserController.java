@@ -6,9 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.common.Result;
+import com.example.utils.Result;
 import com.example.entity.Permission;
-import com.example.entity.Role;
 import com.example.entity.User;
 import com.example.entity.UserRole;
 import com.example.mapper.PermissionMapper;
@@ -16,13 +15,12 @@ import com.example.mapper.RoleMapper;
 import com.example.mapper.UserMapper;
 import com.example.mapper.UserRoleMapper;
 import com.example.service.IUserService;
-import org.apache.ibatis.annotations.Select;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 /**
@@ -52,6 +50,7 @@ public class UserController {
     @Resource
     UserRoleMapper userRoleMapper;
 
+    /*
     //登录
     //不能存在相同用户名
     @PostMapping("/login")
@@ -71,7 +70,7 @@ public class UserController {
         List<UserRole> roleIds = roleMapper.getByUserId(userId);
 
         //HashSet去除重复的资源路径,重写equals和hashcode方法去除不同role中相同的permissionPath
-        HashSet<Permission> permissionSet = new HashSet<>(); 
+        HashSet<Permission> permissionSet = new HashSet<>();
 
         for (UserRole roleId : roleIds) {
             //2.根据角色rid从user_role_rbac视图中查询所有的permission
@@ -84,8 +83,10 @@ public class UserController {
         //设置当前用户的资源信息
         loginUser.setPermissions(permissionsSort);
 
-        return Result.success(loginUser);
+        return Result.success(user);
     }
+
+     */
 
     @PostMapping("/register")
     public Result<?> register(@RequestBody User user) {
@@ -94,6 +95,11 @@ public class UserController {
         if (res != null) {
             return Result.error("-1", "用户名重复");
         }
+
+        String encode = new BCryptPasswordEncoder().encode(user.getPassword());
+
+        user.setPassword(encode);
+
         iUserService.save(user);
 
         //注册用户默认为普通用户，更改权限需要管理员进行更改

@@ -101,7 +101,7 @@ export default {
         })
         router.push("/news")
       } else { //新增
-        this.form.author = JSON.parse(sessionStorage.getItem("userInfo")).username //获取登录时的用户名
+        this.form.author = JSON.parse(localStorage.getItem("userInfo")).username //获取登录时的用户名
         request.post("/news/save", this.form).then(res => {
           console.log(res);
 

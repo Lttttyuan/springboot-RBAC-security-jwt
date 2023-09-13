@@ -103,7 +103,7 @@ export default {
           console.log(row.roleName)
           this.$message.success("更新权限成功")
           //当前登录的用户id如果等于当前操作行的角色id，那么就需要重新登陆
-          let user = JSON.parse(sessionStorage.getItem("userInfo"))
+          let user = JSON.parse(localStorage.getItem("userInfo"))
           console.log(user.role)
           // 注意：!=-1即为为真，可以找到得情况
           if (user.role.search(row.roleName) != -1){
@@ -154,7 +154,7 @@ export default {
           this.dialogVisible = false  // 关闭弹窗
         })
       } else {  // 新增
-        let userStr = sessionStorage.getItem("user") || "{}"
+        let userStr = localStorage.getItem("user") || "{}"
         let user = JSON.parse(userStr)
         this.form.author = user.nickName
 

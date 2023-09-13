@@ -35,6 +35,7 @@ import request from "@/utils/request";
 import router from "@/router/index";
 import ValidCode from "@/components/ValidCode";
 import {activeRouter} from "@/router/permission";
+import qs from "qs";
 
 export default {
   name: "Login",
@@ -61,7 +62,7 @@ export default {
     }
   },
   created() {
-    sessionStorage.removeItem("userInfo")
+    localStorage.removeItem("userInfo")
   },
   methods: {
     //接收验证码组件提交的四位验证码
@@ -87,14 +88,15 @@ export default {
           return;
         }
 
-        request.post("/user/login", this.form).then(res => {
+        console.log(qs.stringify(this.form))
+        request.post("/login"+ '?' + qs.stringify(this.form)).then(res => {
           console.log(res);
           if (res.code == '0') {
             this.$message({
               type: "success",
               message: "登录成功"
             })
-            sessionStorage.setItem("userInfo",JSON.stringify(res.data)) //缓存用户信息
+            localStorage.setItem("userInfo",JSON.stringify(res.data)) //缓存用户信息
 
             const permissions = res.data.permissions;
             //初始化路由信息

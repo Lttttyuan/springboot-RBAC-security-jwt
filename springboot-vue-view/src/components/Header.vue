@@ -23,18 +23,21 @@
 <script>
 
 import router from "@/router";
+import request from "@/utils/request";
 
 export default {
   name: "Header",
   data(){
     return{
-      username: JSON.parse(sessionStorage.getItem("userInfo")).username //获取登录时的用户名
+      username: JSON.parse(localStorage.getItem("userInfo")).username //获取登录时的用户名
     }
   },
   methods:{
     exit(){
+      request.post("/logout").then(( ) =>{
+        console.log("退出登录!!!")
+      })
       router.push('/login')
-      sessionStorage.removeItem("userInfo")
     }
   }
 }

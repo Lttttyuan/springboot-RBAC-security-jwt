@@ -113,7 +113,7 @@ export default {
     }
   },
   created() {
-    let userStr = sessionStorage.getItem("userInfo") || "{}"
+    let userStr = localStorage.getItem("userInfo") || "{}"
     this.user = JSON.parse(userStr)
     // 请求服务端，确认当前登录用户的 合法信息
     request.get("/user/findId/" + this.user.id).then(res => {
